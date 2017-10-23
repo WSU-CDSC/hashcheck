@@ -4,5 +4,4 @@
 'Send Email From': ''
 'Send Email To': ''
 'Send Email': ''
-'Hashdeep Command': ''
 

@@ -7,9 +7,10 @@ require 'os'
 
 #Enter Location of Configuration File between the single quotes In this section!!
 ########
-config = YAML::load_file('')
+ConfigurationFile = ''
 ########
 
+config = YAML::load_file('ConfigurationFile')
 TargetDirectory = config['Target for Hashing']
 HashDirectory = config['Hash Manifest Storage']
 OutputDirectory = config['Report Destination']

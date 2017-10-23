@@ -53,7 +53,7 @@ The 'hashcheck' script includes a configuration file called `hashcheck_config.tx
 
 Once the configuration file has been edited with the appropriate settings, its location must be specified to the 'hashcheck' script. This can be done by opening `hashcheck.rb` in a text editor and adding the path to the location of the configuration file between the single quote marks on __Line 10__.
 
-The result should look something like this: `config = YAML::load_file('/PathToLocation/hashcheck_config.txt')`
+The result should look something like this: `ConfigurationFile = '/PathToLocation/hashcheck_config.txt'`
 
 
 
