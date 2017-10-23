@@ -10,6 +10,11 @@ require 'os'
 ConfigurationFile = ''
 ########
 
+if ! File.exist? ConfigurationFile
+	puts "Selected configuration file not found. Exiting"
+	exit
+end
+
 config = YAML::load_file('ConfigurationFile')
 TargetDirectory = config['Target for Hashing']
 HashDirectory = config['Hash Manifest Storage']
