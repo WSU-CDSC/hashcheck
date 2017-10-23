@@ -29,6 +29,16 @@ MailFrom = config['Send Email From']
 MailTo = config['Send Email To']
 MailOption = config['Send Email']
 
+if TargetDirectory.empty? || HashDirectory.empty? || OutputDirectory.empty?
+	puts "Missing settings found. Please recheck settings in configuration file. Exiting."
+	exit
+elsif MailOption == "Y" && MailFrom.empty? && MailTo.empty?
+	puts "Missing settings found. Please recheck settings in configuration file. Exiting."
+	exit
+end
+
+		
+
 #Set up Variables
 StartTime = Time.now
 RunTimeExtenstion = StartTime.strftime("%Y%m%d_%H%M%S")
