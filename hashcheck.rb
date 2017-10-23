@@ -5,8 +5,11 @@ require 'mail'
 require 'yaml'
 require 'os'
 
-#User Options
+#Enter Location of Configuration File between the single quotes In this section!!
+########
 config = YAML::load_file('')
+########
+
 TargetDirectory = config['Target for Hashing']
 HashDirectory = config['Hash Manifest Storage']
 OutputDirectory = config['Report Destination']
