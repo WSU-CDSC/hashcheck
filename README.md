@@ -27,8 +27,31 @@ Move the file hashdeep64.exe that is supplied with this repository into a folder
 
 ### Mac Installation
 
-Mac: Hashdeep can be installed via Homebrew.  First configure homebrew following the instructions at [https://brew.sh/](https://brew.sh/).  Then run the commands:
+Since Ruby comes included in macOS, you don't have to worry about installing it.
+
+Hashdeep can be installed via Homebrew.  First configure homebrew following the instructions at [https://brew.sh/](https://brew.sh/).  Then run the commands:
 
 `brew install hashdeep` (Install hashdeep)
+
 `sudo gem install mail && sudo gem install os` (Install required Ruby libraries).
+
+## Configuration
+
+The 'hashcheck' script includes a configuration file called `hashcheck_config.txt` that must be configured with your desired settings. To configure, open `hashcheck_config.txt` in a text editor and insert your setting between the sets of empty single quotes. Settings include:
+
+`'Target for Hashing': ''` (The path to the location you would like to hash/verify)
+
+`'Hash Manifest Storage': ''` (The path to the location to store created hash manifests)
+
+`'Report Destination': ''` (The path to the location to create verification reports when the script is run)
+
+`'Send Email From': ''` (The email address used to send copies of verification reports)
+
+`'Send Email To': ''` (The email destination for copies of verification reports)
+
+`'Send Email': ''` (Set this to `Y` to enable email copies of verification reports).
+
+Once the configuration file has been edited with the appropriate settings, its location must be specified to the 'hashcheck' script.
+
+
 
