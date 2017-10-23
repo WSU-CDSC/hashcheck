@@ -57,4 +57,10 @@ This can be done by opening `hashcheck.rb` in a text editor and adding the path 
 
 The result should look something like this: `configuration_file = '/PathToLocation/hashcheck_config.txt'`
 
+## Usage
+
+Once the hashcheck script is configured, it can be run to generate an initial hash manifest for its target. Running the script subseqent times will compare a newly generated manifest against the most recent previous manifest. It will then generate a csv file report that gives totals for/lists: New files, Changed Files, Copied Files, Renamed or Moved Files, Deleted Files, and Confirmed Files. Optionally, this report can be configured for email delivery.
+
+Hashcheck can either be run manually or set as a scheduled task.
+
 
