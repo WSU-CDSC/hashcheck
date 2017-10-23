@@ -7,7 +7,7 @@ This is a script that interfaces with the program [hashdeep](http://md5deep.sour
 
 Requires hashdeep, and the Ruby scripting language to be installed.
 
-### Linux Installation:
+### Linux Installation (Ubuntu):
 Many linux distributions can install necessary elements via their built in package manager. Use the following commands in Terminal:
 
 `sudo apt-get install hashdeep` (Install Hashdeep).
