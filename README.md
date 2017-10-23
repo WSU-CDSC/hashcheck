@@ -1,20 +1,34 @@
 # A script to aid in checksum creation and verification!
 
 ## About
-This is a script that interfaces with the program hashdeep (project website at [http://md5deep.sourceforge.net/start-hashdeep.html](http://md5deep.sourceforge.net/start-hashdeep.html))to generate and compare md5 checksum manifests. It can be run manually or added as an automated process.
+This is a script that interfaces with the program [hashdeep](http://md5deep.sourceforge.net/start-hashdeep.html)to generate and compare md5 checksum manifests. It can be run manually or added as an automated process.
 
 ## Requirements and Installation
 
 Requires hashdeep, and the Ruby scripting language to be installed.
 
-Ruby must be configured by running `gem install mail` and `gem install os`.
+### Linux Installation:
+Many linux distributions can install necessary elements via their built in package manager. Use the following commands in Terminal:
 
-Information for installing Ruby can be found at [https://www.ruby-lang.org/en/documentation/installation/](https://www.ruby-lang.org/en/documentation/installation/)
+`sudo apt-get install hashdeep` (Install Hashdeep)
 
-Hashdeep can be installed via the following methods:
+`sudo apt-get install ruby` (Install Ruby)  Alternately information on installing the most recent release of Ruby can be found at the [Ruby Documentaion](https://www.ruby-lang.org/en/documentation/installation/) site
 
-Windows: Move the included hashdeep64.exe file to your path.
+`sudo gem install mail && sudo gem install os` (Install required Ruby libraries)
 
-Linux: Many linux distributions can install hashdeep with the command `sudo apt-get hashdeep`
+### Windows Installation:
+Install Ruby using the tool ['Ruby Installer'](https://rubyinstaller.org/)
 
-Mac: Hashdeep can be installed via Homebrew.  First configure homebrew following the instructions at [https://brew.sh/](https://brew.sh/).  Then run the command `brew install hashdeep`
+Use the Command Prompt and run the following commands:
+
+`gem install mail && gem install os` (Install required Ruby libraries)
+
+Move the file hashdeep64.exe that is supplied with this repository into a folder that is on your 'Environment Variable' path
+
+### Mac Installation
+
+Mac: Hashdeep can be installed via Homebrew.  First configure homebrew following the instructions at [https://brew.sh/](https://brew.sh/).  Then run the commands:
+
+`brew install hashdeep` (Install hashdeep)
+`sudo gem install mail && sudo gem install os` (Install required Ruby libraries)
+
