@@ -7,15 +7,21 @@ require 'os'
 
 #Enter Location of Configuration File between the single quotes In this section!!
 ########
-ConfigurationFile = ''
+configuration_file = ''
 ########
 
-if ! File.exist? ConfigurationFile
+path2script = __dir__
+DefaultConfigLocation = "#{path2script}/hashcheck_config.txt"
+if configuration_file.empty?
+	configuration_file = DefaultConfigLocation
+end
+
+if ! File.exist? configuration_file
 	puts "Selected configuration file not found. Exiting"
 	exit
 end
 
-config = YAML::load_file('ConfigurationFile')
+config = YAML::load_file('configuration_file')
 TargetDirectory = config['Target for Hashing']
 HashDirectory = config['Hash Manifest Storage']
 OutputDirectory = config['Report Destination']
