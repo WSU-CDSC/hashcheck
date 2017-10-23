@@ -33,7 +33,7 @@ if TargetDirectory.empty? || HashDirectory.empty? || OutputDirectory.empty?
 	puts "Missing settings found. Please recheck settings in configuration file. Exiting."
 	exit
 elsif MailOption == "Y" && MailFrom.empty? && MailTo.empty?
-	puts "Missing settings found. Please recheck settings in configuration file. Exiting."
+	puts "Missing email settings found. Please recheck settings in configuration file. Exiting."
 	exit
 end
 

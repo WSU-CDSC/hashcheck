@@ -45,11 +45,11 @@ The 'hashcheck' script includes a configuration file called `hashcheck_config.tx
 
 `'Report Destination': ''` (The path to the location to create verification reports when the script is run)
 
+`'Send Email': ''` (Set this to `Y` to enable email copies of verification reports).
+
 `'Send Email From': ''` (The email address used to send copies of verification reports)
 
 `'Send Email To': ''` (The email destination for copies of verification reports)
-
-`'Send Email': ''` (Set this to `Y` to enable email copies of verification reports).
 
 The hashcheck script will automatically find a config file stored in the same directory as itself. Alternatively, to change the location of the config file, its location can be specified within the hashcheck script.
 
