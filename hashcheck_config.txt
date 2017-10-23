@@ -1,0 +1,8 @@
+'Target for Hashing': ''
+'Hash Manifest Storage': ''
+'Report Destination': ''
+'Send Email From': ''
+'Send Email To': ''
+'Send Email': ''
+'Hashdeep Command': ''
+
