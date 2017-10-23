@@ -21,7 +21,7 @@ if ! File.exist? configuration_file
 	exit
 end
 
-config = YAML::load_file('configuration_file')
+config = YAML::load_file(configuration_file)
 TargetDirectory = config['Target for Hashing']
 HashDirectory = config['Hash Manifest Storage']
 OutputDirectory = config['Report Destination']
