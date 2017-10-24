@@ -1,8 +1,14 @@
 'Target for Hashing': ''
+
 'Hash Manifest Storage': ''
+
 'Report Destination': ''
+
 'Send Email': ''
+
 'Send Email From': ''
+
 'Send Email To': ''
+
 'Email Password': ''
 
