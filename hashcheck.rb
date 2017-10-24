@@ -7,7 +7,7 @@ require 'os'
 
 #Enter Location of Configuration File between the single quotes In this section!!
 ########
-configuration_file = ''
+configuration_file = '' 
 ########
 
 path2script = __dir__
@@ -26,7 +26,7 @@ TargetDirectory = config['Target for Hashing']
 HashDirectory = config['Hash Manifest Storage']
 OutputDirectory = config['Report Destination']
 MailFrom = config['Send Email From']
-MailTo = config['Send Email To']
+MailTo = config['Send Email To'].split(",")
 MailPassword = config['Email Password']
 MailOption = config['Send Email']
 
@@ -221,19 +221,21 @@ end
 
 #Email Report
 if MailOption.eql? 'Y'
-  Gmail.connect(MailFrom, MailPassword) do |gmail|
-    email = gmail.compose do
-      from     MailFrom
-      to       MailTo
-      subject  "Fixity report for #{TargetDirectory} on #{StartTime}"
-      body     "Fixity report for #{TargetDirectory} on #{StartTime}\n
-      Changed Files Total, #{changedfiles.count}\n
-      Renamed Files Total, #{renamedfiles.count}\n
-      Deleted Files Total, #{deletedfiles.count}\n
-      New Files Total, #{newfiles.count}\n
-      Confirmed Files Total, #{Confirmed.count}"
-      add_file :filename => "fixity_report_#{RunTimeExtenstion}.csv", :content => File.read("#{OutputDirectory}/fixity_report_#{RunTimeExtenstion}.csv")
+  MailTo.each do |targetaddress|
+    Gmail.connect(MailFrom, MailPassword) do |gmail|
+      email = gmail.compose do
+        from     MailFrom
+        to       targetaddress
+        subject  "Fixity report for #{TargetDirectory} on #{StartTime}"
+        body     "Fixity report for #{TargetDirectory} on #{StartTime}\n
+        Changed Files Total, #{changedfiles.count}\n
+        Renamed Files Total, #{renamedfiles.count}\n
+        Deleted Files Total, #{deletedfiles.count}\n
+        New Files Total, #{newfiles.count}\n
+        Confirmed Files Total, #{Confirmed.count}"
+        add_file :filename => "fixity_report_#{RunTimeExtenstion}.csv", :content => File.read("#{OutputDirectory}/fixity_report_#{RunTimeExtenstion}.csv")
+      end
+      gmail.deliver(email)
     end
-    gmail.deliver(email)
   end
 end

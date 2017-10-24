@@ -49,7 +49,7 @@ The 'hashcheck' script includes a configuration file called `hashcheck_config.tx
 
 `'Send Email From': ''` (The email address used to send copies of verification reports (must be a gmail account))
 
-`'Send Email To': ''` (The email destination for copies of verification reports)
+`'Send Email To': ''` (The email destination(s) for copies of verification reports. Multiple email addesses can be entered and __must be separated by commas with no spaces__)
 
 `'Email Password': ''` (The password for the gmail account used for fixity reporting)
 
