@@ -65,4 +65,10 @@ Once the hashcheck script is configured, it can be run to generate an initial ha
 
 Hashcheck can either be run manually or set as a scheduled task.
 
+## Email Usage
+
+The 'hashcheck' script is set to use a gmail account for fixity report delivery. As you will need to change security settings on that account to enable the script to access it, it is recommended to create a dedicated account specifically for fixity reports.
+
+The settings for this account must be configured according to [these instructions](https://github.com/gmailgem/gmail#troubleshooting).
+
 
