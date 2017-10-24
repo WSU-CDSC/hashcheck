@@ -49,22 +49,32 @@ HashName = "md5_manifest_#{RunTimeExtenstion}.txt"
 
 #Check for hashdeep
 if OS.windows?
-  if ! system('hashdeep64.exe -h', [:out, :err] => File::NULL)
+  DefaultHashdeepLocation = "#{path2script}/hashdeep64.exe"
+  if ! system('hashdeep64.exe -h', [:out, :err] => File::NULL) && ! File.exist?(DefaultHashdeepLocation)
     puts "Required program Hashdeep not found. Please see installation information at http://md5deep.sourceforge.net/start-hashdeep.html"
     exit
+elsif ! system('hashdeep64.exe -h', [:out, :err] => File::NULL) && File.exist?(DefaultHashdeepLocation)
+  hashdeeppath = DefaultHashdeepLocation
+  else
+    hashdeeppath = 'hashdeep64.exe'
   end
 else
-  if ! system('hashdeep -h', [:out, :err] => File::NULL)
+  DefaultHashdeepLocation = "#{path2script}/hashdeep"
+  if ! system('hashdeep -h', [:out, :err] => File::NULL) && ! File.exist?(DefaultHashdeepLocation)
     puts "Required program Hashdeep not found. Please see installation information at http://md5deep.sourceforge.net/start-hashdeep.html"
     exit
+  elsif ! system('hashdeep -h', [:out, :err] => File::NULL) && File.exist?(DefaultHashdeepLocation)
+    hashdeeppath = DefaultHashdeepLocation
+  else
+    hashdeeppath = 'hashdeep'
   end
 end
 
 #Generate New Manifest
 if OS.windows?
-  command = "hashdeep64.exe -c md5 -r #{TargetDirectory}"
+  command = "#{hashdeeppath} -c md5 -r #{TargetDirectory}"
 else
-  command = "hashdeep -c md5 -r #{TargetDirectory}"
+  command = "#{hashdeeppath} -c md5 -r #{TargetDirectory}"
 end
 WriteManifest = `#{command}`
 FinishTime = Time.now
