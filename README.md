@@ -14,14 +14,14 @@ Many linux distributions can install necessary elements via their built in packa
 
 `sudo apt-get install ruby` (Install Ruby). Alternately information on installing the most recent release of Ruby can be found at the [Ruby Documentaion](https://www.ruby-lang.org/en/documentation/installation/) site.
 
-`sudo gem install mail && sudo gem install os` (Install required Ruby libraries).
+`sudo gem install gmail && sudo gem install os` (Install required Ruby libraries).
 
 ### Windows Installation:
 Install Ruby using the tool ['Ruby Installer.'](https://rubyinstaller.org/)
 
 Use the Command Prompt and run the following commands:
 
-`gem install mail && gem install os` (Install required Ruby libraries).
+`gem install gmail && gem install os` (Install required Ruby libraries).
 
 Move the file hashdeep64.exe that is supplied with this repository into a folder that is on your 'Environment Variable' path.
 
@@ -33,7 +33,7 @@ Hashdeep can be installed via Homebrew.  First configure homebrew following the 
 
 `brew install hashdeep` (Install hashdeep)
 
-`sudo gem install mail && sudo gem install os` (Install required Ruby libraries).
+`sudo gem install gmail && sudo gem install os` (Install required Ruby libraries).
 
 ## Configuration
 
@@ -47,9 +47,11 @@ The 'hashcheck' script includes a configuration file called `hashcheck_config.tx
 
 `'Send Email': ''` (Set this to `Y` to enable email copies of verification reports).
 
-`'Send Email From': ''` (The email address used to send copies of verification reports)
+`'Send Email From': ''` (The email address used to send copies of verification reports (must be a gmail account))
 
 `'Send Email To': ''` (The email destination for copies of verification reports)
+
+`'Email Password': ''` (The password for the gmail account used for fixity reporting)
 
 The hashcheck script will automatically find a config file stored in the same directory as itself. Alternatively, to change the location of the config file, its location can be specified within the hashcheck script.
 
@@ -59,7 +61,7 @@ The result should look something like this: `configuration_file = '/PathToLocati
 
 ## Usage
 
-Once the hashcheck script is configured, it can be run to generate an initial hash manifest for its target. Running the script subseqent times will compare a newly generated manifest against the most recent previous manifest. It will then generate a csv file report that gives totals for/lists: New files, Changed Files, Copied Files, Renamed or Moved Files, Deleted Files, and Confirmed Files. Optionally, this report can be configured for email delivery.
+Once the hashcheck script is configured, it can be run to generate an initial hash manifest for its target. Running the script subseqent times will compare a newly generated manifest against the most recent previous manifest. It will then generate a csv file report that gives totals for/lists: New files, Changed Files, Copied Files, Renamed or Moved Files, Deleted Files, and Confirmed Files. Optionally, this report can be configured for email delivery via a gmail account.
 
 Hashcheck can either be run manually or set as a scheduled task.
 

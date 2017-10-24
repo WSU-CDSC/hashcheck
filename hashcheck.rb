@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'csv'
-require 'mail'
+require 'gmail'
 require 'yaml'
 require 'os'
 
@@ -27,6 +27,7 @@ HashDirectory = config['Hash Manifest Storage']
 OutputDirectory = config['Report Destination']
 MailFrom = config['Send Email From']
 MailTo = config['Send Email To']
+MailPassword = config['Email Password']
 MailOption = config['Send Email']
 
 if TargetDirectory.empty? || HashDirectory.empty? || OutputDirectory.empty?
@@ -220,17 +221,19 @@ end
 
 #Email Report
 if MailOption.eql? 'Y'
-  mail = Mail.new do
-    from     MailFrom
-    to       MailTo
-    subject  "Fixity report for #{TargetDirectory} on #{StartTime}"
-    body     "Fixity report for #{TargetDirectory} on #{StartTime}\n
-    Changed Files Total, #{changedfiles.count}\n
-    Renamed Files Total, #{renamedfiles.count}\n
-    Deleted Files Total, #{deletedfiles.count}\n
-    New Files Total, #{newfiles.count}\n
-    Confirmed Files Total, #{Confirmed.count}"
-    add_file :filename => "fixity_report_#{RunTimeExtenstion}.csv", :content => File.read("#{OutputDirectory}/fixity_report_#{RunTimeExtenstion}.csv")
+  Gmail.connect(MailFrom, MailPassword) do |gmail|
+    email = gmail.compose do
+      from     MailFrom
+      to       MailTo
+      subject  "Fixity report for #{TargetDirectory} on #{StartTime}"
+      body     "Fixity report for #{TargetDirectory} on #{StartTime}\n
+      Changed Files Total, #{changedfiles.count}\n
+      Renamed Files Total, #{renamedfiles.count}\n
+      Deleted Files Total, #{deletedfiles.count}\n
+      New Files Total, #{newfiles.count}\n
+      Confirmed Files Total, #{Confirmed.count}"
+      add_file :filename => "fixity_report_#{RunTimeExtenstion}.csv", :content => File.read("#{OutputDirectory}/fixity_report_#{RunTimeExtenstion}.csv")
+    end
+    gmail.deliver(email)
   end
-  mail.deliver
 end
