@@ -3,5 +3,6 @@
 'Report Destination': ''
 'Send Email': ''
 'Send Email From': ''
+'Email Password': ''
 'Send Email To': ''
 
