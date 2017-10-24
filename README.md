@@ -10,7 +10,7 @@ Requires hashdeep, and the Ruby scripting language to be installed.
 ### Linux Installation (Ubuntu):
 Many linux distributions can install necessary elements via their built in package manager. Use the following commands in Terminal:
 
-`sudo apt-get install hashdeep` (Install Hashdeep).
+`sudo apt-get install hashdeep` (Install Hashdeep). Alternatively, the 'hashcheck' script will look for hashdeep in its same directory so you can use the included version.
 
 `sudo apt-get install ruby` (Install Ruby). Alternately information on installing the most recent release of Ruby can be found at the [Ruby Documentaion](https://www.ruby-lang.org/en/documentation/installation/) site.
 
@@ -23,7 +23,7 @@ Use the Command Prompt and run the following commands:
 
 `gem install gmail && gem install os` (Install required Ruby libraries).
 
-Move the file hashdeep64.exe that is supplied with this repository into a folder that is on your 'Environment Variable' path.
+Move the file hashdeep64.exe that is supplied with this repository into a folder that is on your 'Environment Variable' path. Alternatively, if the included hashdeep64.exe file is left in the same directory as the 'hashcheck' script, it will be found and used by the script.
 
 ### Mac Installation
 
@@ -31,7 +31,7 @@ Since Ruby comes included in macOS, you don't have to worry about installing it.
 
 Hashdeep can be installed via Homebrew.  First configure homebrew following the instructions at [https://brew.sh/](https://brew.sh/).  Then run the commands:
 
-`brew install hashdeep` (Install hashdeep)
+`brew install hashdeep` (Install hashdeep) Alternatively, the 'hashcheck' script will look for hashdeep in its same directory so you can use the included version.
 
 `sudo gem install gmail && sudo gem install os` (Install required Ruby libraries).
 
