@@ -61,13 +61,14 @@ else
   end
 end
 
-TargetList.each do |targetlocation|
+TargetList.each.with_index do |targetlocation, index|
   #Set up Variables
   StartTime = Time.now
   RunTimeExtenstion = StartTime.strftime("%Y%m%d_%H%M%S")
-  HashList = Dir.entries(HashDirectory).sort.reject{|entry| entry[0] == "."}
+  collection = File.basename(targetlocation)
+  HashList = Dir.entries(HashDirectory).grep(/#{collection}/).sort.reject{|entry| entry[0] == "."}
   TargetManifest = HashList.last
-  HashName = "md5_manifest_#{RunTimeExtenstion}.txt"
+  HashName = "#{collection}_md5_manifest_#{RunTimeExtenstion}.txt"
 
   #Generate New Manifest
   if OS.windows?
@@ -81,7 +82,11 @@ TargetList.each do |targetlocation|
 
   #Exit if no prior manifest to compare
   if HashList.empty?
-    exit
+    if index == TargetList.size-1
+      exit
+    else
+      next
+    end
   end
 
   #Compare Manifests
@@ -160,7 +165,8 @@ TargetList.each do |targetlocation|
   end
 
   #Write csv
-  CSV.open("#{OutputDirectory}/fixity_report_#{RunTimeExtenstion}.csv", "ab") do |csv|
+  csvpath = "#{OutputDirectory}/#{collection}_fixity_report_#{RunTimeExtenstion}.csv"
+  CSV.open(csvpath, "ab") do |csv|
 
     csv << ["Target", targetlocation]
     csv << ["Comparing", TargetManifest, HashName]
@@ -242,7 +248,7 @@ TargetList.each do |targetlocation|
           Deleted Files Total, #{deletedfiles.count}\n
           New Files Total, #{newfiles.count}\n
           Confirmed Files Total, #{Confirmed.count}"
-          add_file :filename => "fixity_report_#{RunTimeExtenstion}.csv", :content => File.read("#{OutputDirectory}/fixity_report_#{RunTimeExtenstion}.csv")
+          add_file :filename => "fixity_report_#{RunTimeExtenstion}.csv", :content => File.read(csvpath)
         end
         gmail.deliver(email)
       end
