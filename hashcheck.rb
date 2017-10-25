@@ -7,7 +7,7 @@ require 'os'
 
 #Enter Location of Configuration File between the single quotes In this section!!
 ########
-configuration_file = '/home/weaver/Desktop/fixityconfig.txt' 
+configuration_file = '' 
 ########
 
 path2script = __dir__
@@ -63,25 +63,25 @@ end
 
 TargetList.each.with_index do |targetlocation, index|
   #Set up Variables
-  StartTime = Time.now
-  RunTimeExtenstion = StartTime.strftime("%Y%m%d_%H%M%S")
+  starttime = Time.now
+  runtimeextension = starttime.strftime("%Y%m%d_%H%M%S")
   collection = File.basename(targetlocation)
-  HashList = Dir.entries(HashDirectory).grep(/#{collection}/).sort.reject{|entry| entry[0] == "."}
-  TargetManifest = HashList.last
-  HashName = "#{collection}_md5_manifest_#{RunTimeExtenstion}.txt"
+  hashlist = Dir.entries(HashDirectory).grep(/#{collection}/).sort.reject{|entry| entry[0] == "."}
+  targetmanifest = hashlist.last
+  hashname = "#{collection}_md5_manifest_#{runtimeextension}.txt"
 
   #Generate New Manifest
   if OS.windows?
-    command = "#{hashdeeppath} -c md5 -r #{targetlocation}"
+    command = "#{hashdeeppath} -e -c md5 -r #{targetlocation}"
   else
-    command = "#{hashdeeppath} -c md5 -r #{targetlocation}"
+    command = "#{hashdeeppath} -e -c md5 -r #{targetlocation}"
   end
-  WriteManifest = `#{command}`
-  FinishTime = Time.now
-  File.write("#{HashDirectory}/#{HashName}", "#{WriteManifest}")
+  writemanifest = `#{command}`
+  finishtime = Time.now
+  File.write("#{HashDirectory}/#{hashname}", "#{writemanifest}")
 
   #Exit if no prior manifest to compare
-  if HashList.empty?
+  if hashlist.empty?
     if index == TargetList.size-1
       exit
     else
@@ -90,25 +90,25 @@ TargetList.each.with_index do |targetlocation, index|
   end
 
   #Compare Manifests
-  OldManifest = Array.new
-  NewManifest = Array.new
-  File.readlines("#{HashDirectory}/#{TargetManifest}").each do |line|
+  oldmanifest = Array.new
+  newmanifest = Array.new
+  File.readlines("#{HashDirectory}/#{targetmanifest}").each do |line|
   	if OS.windows?
-  		OldManifest << line.gsub("\\", "/")
+  		oldmanifest << line.gsub("\\", "/")
   	else
-  	  OldManifest << line
+  	  oldmanifest << line
   	end
   end
-  File.readlines("#{HashDirectory}/#{HashName}").each do |line|
+  File.readlines("#{HashDirectory}/#{hashname}").each do |line|
   	if OS.windows?
-  		NewManifest << line.gsub("\\", "/")
+  		newmanifest << line.gsub("\\", "/")
   	else
-  		NewManifest << line
+  		newmanifest << line
   	end
   end
-  NewOrChanged = (NewManifest - OldManifest)
-  Deleted = (OldManifest - NewManifest)
-  Confirmed = ((OldManifest & NewManifest).reject{|entry| entry[0..1] == "##" || entry[0..3] == "%%%%"})
+  neworchanged = (newmanifest - oldmanifest)
+  deleted = (oldmanifest - newmanifest)
+  confirmed = ((oldmanifest & newmanifest).reject{|entry| entry[0..1] == "##" || entry[0..3] == "%%%%"})
 
   #Check for new renamed or altered files
   changedfiles = Array.new
@@ -119,19 +119,19 @@ TargetList.each.with_index do |targetlocation, index|
   copiedfiles = Array.new
 
   # Get paths for confirmed files
-  Confirmed.each do |result|
+  confirmed.each do |result|
     md5 = result.split(",")[1]
     path = result.split(",")[2]
     confirmedfiles << path
   end
 
 
-  NewOrChanged.each do |result|
+  neworchanged.each do |result|
     md5 = result.split(",")[1]
     path = result.split(",")[2]
-    pathtest = OldManifest.grep(/#{path}/)
-    md5test = OldManifest.grep(/#{md5}/)
-    md5pathtest = OldManifest.grep(/#{md5},#{path}/)
+    pathtest = oldmanifest.grep(/#{path}/)
+    md5test = oldmanifest.grep(/#{md5}/)
+    md5pathtest = oldmanifest.grep(/#{md5},#{path}/)
     #Check if path exists in old manifest but "hash,path" doesn't (altered file)
     if pathtest.any? && md5pathtest.empty?
       changedfiles << path 
@@ -140,9 +140,9 @@ TargetList.each.with_index do |targetlocation, index|
     if pathtest.empty? && md5test.any?
       md5test.each do |line|
         originpath = line.split(",")[2]
-        if NewManifest.grep(/#{line}/).empty? && renamedfiles.grep(/#{originpath}/).empty? && renamedfiles.grep(/#{path}/).empty?
+        if newmanifest.grep(/#{line}/).empty? && renamedfiles.grep(/#{originpath}/).empty? && renamedfiles.grep(/#{path}/).empty?
           renamedfiles << "#{originpath},->,#{path}"
-        elsif NewManifest.grep(/#{path}/) && renamedfiles.grep(/#{path}/).empty?
+        elsif newmanifest.grep(/#{path}/) && renamedfiles.grep(/#{path}/).empty?
             copiedfiles << "#{path}"
         end
         copiedfiles = copiedfiles.uniq
@@ -155,29 +155,29 @@ TargetList.each.with_index do |targetlocation, index|
   end
 
   #Check for deleted files ("md5,path" does not exist in new manifest and md5 does not exist in "New or Changed" files)
-  Deleted.each do |result|
+  deleted.each do |result|
     md5 = result.split(",")[1]
     path = result.split(",")[2]
-    md5pathtest = NewManifest.grep(/#{md5},#{path}/)
-      if md5pathtest.empty? && NewOrChanged.grep(/#{md5}/).empty?
+    md5pathtest = newmanifest.grep(/#{md5},#{path}/)
+      if md5pathtest.empty? && neworchanged.grep(/#{md5}/).empty?
       deletedfiles << path 
     end
   end
 
   #Write csv
-  csvpath = "#{OutputDirectory}/#{collection}_fixity_report_#{RunTimeExtenstion}.csv"
+  csvpath = "#{OutputDirectory}/#{collection}_fixity_report_#{runtimeextension}.csv"
   CSV.open(csvpath, "ab") do |csv|
 
     csv << ["Target", targetlocation]
-    csv << ["Comparing", TargetManifest, HashName]
-    csv << ["Start Time", StartTime]
-    csv << ["End Time", FinishTime]
+    csv << ["Comparing", targetmanifest, hashname]
+    csv << ["Start Time", starttime]
+    csv << ["End Time", finishtime]
     csv << ["New Files Total", newfiles.count]
     csv << ["Changed Files Total", changedfiles.count]
     csv << ["Copied Files Total", copiedfiles.count]
     csv << ["Renamed or Moved", renamedfiles.count]
-    csv << ["Deleted Files Total", deletedfiles.count]
-    csv << ["Confirmed Files Total", Confirmed.count]
+    csv << ["deleted Files Total", deletedfiles.count]
+    csv << ["confirmed Files Total", confirmed.count]
 
     if OS.windows?
       newfiles.each do |result|
@@ -198,11 +198,11 @@ TargetList.each.with_index do |targetlocation, index|
         csv << towrite
       end
       deletedfiles.each do |result|
-        towrite = ["Deleted File", result.gsub("/", "\\")]
+        towrite = ["deleted File", result.gsub("/", "\\")]
         csv << towrite
       end
       confirmedfiles.each do |result|
-        towrite = ["Confirmed File", result.gsub("/", "\\")]
+        towrite = ["confirmed File", result.gsub("/", "\\")]
         csv << towrite
       end
     else
@@ -224,11 +224,11 @@ TargetList.each.with_index do |targetlocation, index|
         csv << towrite
       end
       deletedfiles.each do |result|
-        towrite = ["Deleted File", result]
+        towrite = ["deleted File", result]
         csv << towrite
       end
       confirmedfiles.each do |result|
-        towrite = ["Confirmed File", result]
+        towrite = ["confirmed File", result]
         csv << towrite
       end
     end
@@ -241,14 +241,14 @@ TargetList.each.with_index do |targetlocation, index|
         email = gmail.compose do
           from     MailFrom
           to       targetaddress
-          subject  "Fixity report for #{targetlocation} on #{StartTime}"
-          body     "Fixity report for #{targetlocation} on #{StartTime}\n
+          subject  "Fixity report for #{targetlocation} on #{starttime}"
+          body     "Fixity report for #{targetlocation} on #{starttime}\n
           Changed Files Total, #{changedfiles.count}\n
           Renamed Files Total, #{renamedfiles.count}\n
-          Deleted Files Total, #{deletedfiles.count}\n
+          deleted Files Total, #{deletedfiles.count}\n
           New Files Total, #{newfiles.count}\n
-          Confirmed Files Total, #{Confirmed.count}"
-          add_file :filename => "fixity_report_#{RunTimeExtenstion}.csv", :content => File.read(csvpath)
+          confirmed Files Total, #{confirmed.count}"
+          add_file :filename => "fixity_report_#{runtimeextension}.csv", :content => File.read(csvpath)
         end
         gmail.deliver(email)
       end
