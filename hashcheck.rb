@@ -30,46 +30,44 @@ MailTo = config['Send Email To'].split(",")
 MailPassword = config['Email Password']
 MailOption = config['Send Email']
 
-TargetList.each do |targetlocation|
-  if targetlocation.empty? || HashDirectory.empty? || OutputDirectory.empty?
-  	puts "Missing settings found. Please recheck settings in configuration file. Exiting."
-  	exit
-  elsif MailOption == "Y" && MailFrom.empty? && MailTo.empty?
-  	puts "Missing email settings found. Please recheck settings in configuration file. Exiting."
-  	exit
+if TargetList.empty? || HashDirectory.empty? || OutputDirectory.empty?
+	puts "Missing settings found. Please recheck settings in configuration file. Exiting."
+	exit
+elsif MailOption == "Y" && MailFrom.empty? && MailTo.empty?
+	puts "Missing email settings found. Please recheck settings in configuration file. Exiting."
+	exit
+end
+
+#Check for hashdeep
+if OS.windows?
+  DefaultHashdeepLocation = "#{path2script}/hashdeep64.exe"
+  if ! system('hashdeep64.exe -h', [:out, :err] => File::NULL) && ! File.exist?(DefaultHashdeepLocation)
+    puts "Required program Hashdeep not found. Please see installation information at http://md5deep.sourceforge.net/start-hashdeep.html"
+    exit
+elsif ! system('hashdeep64.exe -h', [:out, :err] => File::NULL) && File.exist?(DefaultHashdeepLocation)
+  hashdeeppath = DefaultHashdeepLocation
+  else
+    hashdeeppath = 'hashdeep64.exe'
   end
+else
+  DefaultHashdeepLocation = "#{path2script}/hashdeep"
+  if ! system('hashdeep -h', [:out, :err] => File::NULL) && ! File.exist?(DefaultHashdeepLocation)
+    puts "Required program Hashdeep not found. Please see installation information at http://md5deep.sourceforge.net/start-hashdeep.html"
+    exit
+  elsif ! system('hashdeep -h', [:out, :err] => File::NULL) && File.exist?(DefaultHashdeepLocation)
+    hashdeeppath = DefaultHashdeepLocation
+  else
+    hashdeeppath = 'hashdeep'
+  end
+end
 
-  		
-
+TargetList.each do |targetlocation|
   #Set up Variables
   StartTime = Time.now
   RunTimeExtenstion = StartTime.strftime("%Y%m%d_%H%M%S")
   HashList = Dir.entries(HashDirectory).sort.reject{|entry| entry[0] == "."}
   TargetManifest = HashList.last
   HashName = "md5_manifest_#{RunTimeExtenstion}.txt"
-
-  #Check for hashdeep
-  if OS.windows?
-    DefaultHashdeepLocation = "#{path2script}/hashdeep64.exe"
-    if ! system('hashdeep64.exe -h', [:out, :err] => File::NULL) && ! File.exist?(DefaultHashdeepLocation)
-      puts "Required program Hashdeep not found. Please see installation information at http://md5deep.sourceforge.net/start-hashdeep.html"
-      exit
-  elsif ! system('hashdeep64.exe -h', [:out, :err] => File::NULL) && File.exist?(DefaultHashdeepLocation)
-    hashdeeppath = DefaultHashdeepLocation
-    else
-      hashdeeppath = 'hashdeep64.exe'
-    end
-  else
-    DefaultHashdeepLocation = "#{path2script}/hashdeep"
-    if ! system('hashdeep -h', [:out, :err] => File::NULL) && ! File.exist?(DefaultHashdeepLocation)
-      puts "Required program Hashdeep not found. Please see installation information at http://md5deep.sourceforge.net/start-hashdeep.html"
-      exit
-    elsif ! system('hashdeep -h', [:out, :err] => File::NULL) && File.exist?(DefaultHashdeepLocation)
-      hashdeeppath = DefaultHashdeepLocation
-    else
-      hashdeeppath = 'hashdeep'
-    end
-  end
 
   #Generate New Manifest
   if OS.windows?
