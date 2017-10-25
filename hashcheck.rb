@@ -72,9 +72,9 @@ TargetList.each.with_index do |targetlocation, index|
 
   #Generate New Manifest
   if OS.windows?
-    command = "#{hashdeeppath} -e -c md5 -r #{targetlocation}"
+    command = %{#{hashdeeppath} -e -c md5 -r "#{targetlocation}"}
   else
-    command = "#{hashdeeppath} -e -c md5 -r #{targetlocation}"
+    command = "#{hashdeeppath} -e -c md5 -r '#{targetlocation}'"
   end
   writemanifest = `#{command}`
   finishtime = Time.now
