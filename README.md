@@ -39,7 +39,7 @@ Hashdeep can be installed via Homebrew.  First configure homebrew following the 
 
 The 'hashcheck' script includes a configuration file called `hashcheck_config.txt` that must be configured with your desired settings. To configure, open `hashcheck_config.txt` in a text editor and insert your setting between the sets of empty single quotes. Settings include:
 
-`'Target for Hashing': ''` (The path to the location you would like to hash/verify)
+`'Target for Hashing': ''` (The path to the location(s) you would like to hash/verify. Multiple locations can be entered, and __must be separated by commas with no spaces__)
 
 `'Hash Manifest Storage': ''` (The path to the location to store created hash manifests)
 
