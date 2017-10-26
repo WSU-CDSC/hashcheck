@@ -176,8 +176,8 @@ TargetList.each.with_index do |targetlocation, index|
     csv << ["Changed Files Total", changedfiles.count]
     csv << ["Copied Files Total", copiedfiles.count]
     csv << ["Renamed or Moved", renamedfiles.count]
-    csv << ["deleted Files Total", deletedfiles.count]
-    csv << ["confirmed Files Total", confirmed.count]
+    csv << ["Deleted Files Total", deletedfiles.count]
+    csv << ["Confirmed Files Total", confirmed.count]
 
     if OS.windows?
       newfiles.each do |result|
@@ -198,11 +198,11 @@ TargetList.each.with_index do |targetlocation, index|
         csv << towrite
       end
       deletedfiles.each do |result|
-        towrite = ["deleted File", result.gsub("/", "\\")]
+        towrite = ["Deleted File", result.gsub("/", "\\")]
         csv << towrite
       end
       confirmedfiles.each do |result|
-        towrite = ["confirmed File", result.gsub("/", "\\")]
+        towrite = ["Confirmed File", result.gsub("/", "\\")]
         csv << towrite
       end
     else
@@ -224,11 +224,11 @@ TargetList.each.with_index do |targetlocation, index|
         csv << towrite
       end
       deletedfiles.each do |result|
-        towrite = ["deleted File", result]
+        towrite = ["Deleted File", result]
         csv << towrite
       end
       confirmedfiles.each do |result|
-        towrite = ["confirmed File", result]
+        towrite = ["Confirmed File", result]
         csv << towrite
       end
     end
@@ -245,9 +245,9 @@ TargetList.each.with_index do |targetlocation, index|
           body     "Fixity report for #{targetlocation} on #{starttime}\n
           Changed Files Total, #{changedfiles.count}\n
           Renamed Files Total, #{renamedfiles.count}\n
-          deleted Files Total, #{deletedfiles.count}\n
+          Deleted Files Total, #{deletedfiles.count}\n
           New Files Total, #{newfiles.count}\n
-          confirmed Files Total, #{confirmed.count}"
+          Confirmed Files Total, #{confirmed.count}"
           add_file :filename => "fixity_report_#{runtimeextension}.csv", :content => File.read(csvpath)
         end
         gmail.deliver(email)
