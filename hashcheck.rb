@@ -154,12 +154,12 @@ TargetList.each.with_index do |targetlocation, index|
     end
   end
 
-  #Check for deleted files ("md5,path" does not exist in new manifest and md5 does not exist in "New or Changed" files)
+  #Check for deleted files ("md5,path" does not exist in new manifest and md5 does not exist in "New or Changed" files/path does not exist in changedfiles)
   deleted.each do |result|
     md5 = result.split(",")[1]
     path = result.split(",")[2]
     md5pathtest = newmanifest.grep(/#{md5},#{path}/)
-      if md5pathtest.empty? && neworchanged.grep(/#{md5}/).empty?
+      if md5pathtest.empty? && neworchanged.grep(/#{md5}/).empty? && changedfiles.grep(/#{path}/).empty?
       deletedfiles << path 
     end
   end
