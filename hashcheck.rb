@@ -13,12 +13,12 @@ configuration_file = ''
 path2script = __dir__
 DefaultConfigLocation = "#{path2script}/hashcheck_config.txt"
 if configuration_file.empty?
-	configuration_file = DefaultConfigLocation
+  configuration_file = DefaultConfigLocation
 end
 
 if ! File.exist? configuration_file
-	puts "Selected configuration file not found. Exiting"
-	exit
+  puts "Selected configuration file not found. Exiting"
+  exit
 end
 
 config = YAML::load_file(configuration_file)
@@ -31,11 +31,11 @@ MailPassword = config['Email Password']
 MailOption = config['Send Email']
 
 if TargetList.empty? || HashDirectory.empty? || OutputDirectory.empty?
-	puts "Missing settings found. Please recheck settings in configuration file. Exiting."
-	exit
+  puts "Missing settings found. Please recheck settings in configuration file. Exiting."
+  exit
 elsif MailOption == "Y" && MailFrom.empty? && MailTo.empty?
-	puts "Missing email settings found. Please recheck settings in configuration file. Exiting."
-	exit
+  puts "Missing email settings found. Please recheck settings in configuration file. Exiting."
+  exit
 end
 
 #Check for hashdeep
@@ -93,18 +93,18 @@ TargetList.each.with_index do |targetlocation, index|
   oldmanifest = Array.new
   newmanifest = Array.new
   File.readlines("#{HashDirectory}/#{targetmanifest}").each do |line|
-  	if OS.windows?
-  		oldmanifest << line.gsub("\\", "/")
-  	else
-  	  oldmanifest << line
-  	end
+    if OS.windows?
+      oldmanifest << line.gsub("\\", "/")
+    else
+      oldmanifest << line
+    end
   end
   File.readlines("#{HashDirectory}/#{hashname}").each do |line|
-  	if OS.windows?
-  		newmanifest << line.gsub("\\", "/")
-  	else
-  		newmanifest << line
-  	end
+    if OS.windows?
+      newmanifest << line.gsub("\\", "/")
+    else
+      newmanifest << line
+    end
   end
   neworchanged = (newmanifest - oldmanifest)
   deleted = (oldmanifest - newmanifest)
