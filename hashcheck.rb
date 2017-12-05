@@ -33,6 +33,9 @@ MailOption = config['Send Email']
 if TargetList.empty? || HashDirectory.empty? || OutputDirectory.empty?
   puts "Missing settings found. Please recheck settings in configuration file. Exiting."
   exit
+elsif ! Dir.exist?(HashDirectory) || ! Dir.exist?(OutputDirectory)
+  puts "Directory specified in configuration not found. Please double check settings in configuration file. Exiting."
+  exit
 elsif MailOption == "Y" && MailFrom.empty? && MailTo.empty?
   puts "Missing email settings found. Please recheck settings in configuration file. Exiting."
   exit
