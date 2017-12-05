@@ -12,7 +12,7 @@ Many linux distributions can install necessary elements via their built in packa
 
 `sudo apt-get install hashdeep` (Install Hashdeep). Alternatively, the 'hashcheck' script will look for hashdeep in its same directory so you can use the included version.
 
-`sudo apt-get install ruby` (Install Ruby). Alternately information on installing the most recent release of Ruby can be found at the [Ruby Documentaion](https://www.ruby-lang.org/en/documentation/installation/) site.
+`sudo apt-get install ruby` (Install Ruby). Alternately information on installing the most recent release of Ruby can be found at the [Ruby Documentation](https://www.ruby-lang.org/en/documentation/installation/) site.
 
 `sudo gem install gmail && sudo gem install os` (Install required Ruby libraries).
 
