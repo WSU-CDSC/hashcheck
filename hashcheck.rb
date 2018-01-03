@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# Version 2018-01-03
 
 require 'csv'
 require 'gmail'
