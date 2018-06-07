@@ -99,17 +99,21 @@ TargetList.each.with_index do |targetlocation, index|
     oldmanifest = Array.new
     newmanifest = Array.new
     File.readlines("#{HashDirectory}/#{targetmanifest}").each do |line|
-      if OS.windows?
-        oldmanifest << line.gsub("\\", "/")
-      else
-        oldmanifest << line
+      if ! line.include?('Thumbs.db')
+        if OS.windows?
+          oldmanifest << line.gsub("\\", "/")
+        else
+          oldmanifest << line
+        end
       end
     end
     File.readlines("#{HashDirectory}/#{hashname}").each do |line|
-      if OS.windows?
-        newmanifest << line.gsub("\\", "/")
-      else
-        newmanifest << line
+      if ! line.include?('Thumbs.db')
+        if OS.windows?
+          newmanifest << line.gsub("\\", "/")
+        else
+          newmanifest << line
+        end
       end
     end
     neworchanged = (newmanifest - oldmanifest)
