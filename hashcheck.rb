@@ -174,6 +174,15 @@ TargetList.each.with_index do |targetlocation, index|
       end
     end
 
+    # Remove false positives for copies
+    copiedfiles.each do |copyline|
+      renamedfiles.each do |renameline|
+        if renameline.include?(copyline)
+          copiedfiles.delete(copyline)
+        end
+      end
+    end
+
     #Write csv
     csvpath = "#{OutputDirectory}/#{collection}_fixity_report_#{runtimeextension}.csv"
     CSV.open(csvpath, "ab") do |csv|
